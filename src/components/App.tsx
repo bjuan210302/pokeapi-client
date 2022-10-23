@@ -1,16 +1,21 @@
 import { AppShell, Group, Stack, ThemeIcon, UnstyledButton, Text } from '@mantine/core';
-import { IconPhoto, IconHeart, IconSettings } from '@tabler/icons';
+import { IconPhoto, IconHeart, IconArrowBarLeft } from '@tabler/icons';
 import { Navbar } from '@mantine/core';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { getAuth, signOut } from 'firebase/auth';
+import { firebaseApp, userContext } from '../main';
+import { useContext } from 'react';
 
 interface MainLinkProps {
   icon: React.ReactNode;
   color: string;
   label: string;
+  onClickProp?: () => void;
 }
 
 function MainLink(props: MainLinkProps) {
-  const { icon, color, label } = props;
+  const { icon, color, label, onClickProp } = props;
+  const navigate = useNavigate();
   return (
     <UnstyledButton px='xl' py='sm'
       sx={(theme) => ({
@@ -21,35 +26,41 @@ function MainLink(props: MainLinkProps) {
           backgroundColor: theme.colors.gray[0],
         },
       })}
-      onClick={() => { }}
+      onClick={() => {
+        if (onClickProp) onClickProp()
+        else navigate(label)
+      }}
     >
-      <Link to={label} style={{ textDecoration: 'none', color: 'inherit' }}>
-        <Group>
-          <ThemeIcon size='xl' color={color} variant="light">
-            {icon}
-          </ThemeIcon>
-          <Text size="lg">{label}</Text>
-        </Group>
-      </Link>
+      <Group>
+        <ThemeIcon size='xl' color={color} variant="light">
+          {icon}
+        </ThemeIcon>
+        <Text size="lg">{label}</Text>
+      </Group>
     </UnstyledButton>
   );
 }
 
 function CNavbar() {
-  const data = [
-    { icon: <IconPhoto size={22} />, color: 'teal', label: 'Memes' },
+  const firebaseAuth = getAuth(firebaseApp);
+  const { setUid } = useContext(userContext);
+  const navLinks = [
+    { icon: <IconPhoto size={22} />, color: 'teal', label: 'List' },
     { icon: <IconHeart size={22} />, color: 'red', label: 'Favourites' },
-    { icon: <IconSettings size={22} />, color: 'indigo', label: 'Settings' },
   ];
+  const logout = () => {
+    signOut(firebaseAuth).then(() => setUid('')).catch();
+  }
   return (
     <Navbar p="xs" width={{ base: 300 }}>
       <Navbar.Section>{/* Header with logo */}</Navbar.Section>
       <Navbar.Section grow mt="md">
         <Stack>
-          {data.map((link) => <MainLink {...link} key={link.label} />)}
+          {navLinks.map((link) => <MainLink {...link} key={link.label} />)}
+          <MainLink icon={<IconArrowBarLeft size={22} />} color='indigo' label='Logout'
+            onClickProp={logout} />
         </Stack>
       </Navbar.Section>
-      <Navbar.Section>{/* Footer with user */}</Navbar.Section>
     </Navbar>
   );
 }
