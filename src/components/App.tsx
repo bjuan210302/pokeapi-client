@@ -45,8 +45,8 @@ function CNavbar() {
   const firebaseAuth = getAuth(firebaseApp);
   const { setUid } = useContext(userContext);
   const navLinks = [
-    { icon: <IconPhoto size={22} />, color: 'teal', label: 'List' },
-    { icon: <IconHeart size={22} />, color: 'red', label: 'Favourites' },
+    { icon: <IconPhoto size={22} />, color: 'teal', label: 'All Pokémon' },
+    { icon: <IconHeart size={22} />, color: 'red', label: 'My Favorites' },
   ];
   const logout = () => {
     signOut(firebaseAuth).then(() => setUid('')).catch();

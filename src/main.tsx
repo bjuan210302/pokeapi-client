@@ -6,6 +6,7 @@ import Login from './components/Login'
 import Favourites from './components/Favourites'
 import './index.css'
 import { initializeApp } from 'firebase/app'
+import ListPokemon from './views/listPokemon/ListPokemon'
 
 const firebaseConfig = {
   apiKey: "AIzaSyC_fWJFRzPOL6pr1UqqzXK7fZc95wycuNc",
@@ -39,7 +40,7 @@ const Index = () => {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/app" element={<App />} >
-          <Route path="list" element={<Favourites />} />
+          <Route path="list" element={<ListPokemon></ListPokemon>} />
           <Route path="favourites" element={<div>FAV</div>} />
         </Route>
       </Routes>
