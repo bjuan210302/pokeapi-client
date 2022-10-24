@@ -5,7 +5,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
 import { userContext } from '../main';
 import { useContext } from 'react';
-import { firebaseApp } from '../utils/firestoreSaver';
+import { firebaseApp } from '../utils/firebaseUtils';
 
 interface MainLinkProps {
   icon: React.ReactNode;

@@ -4,7 +4,7 @@ import { IconEdit, IconLogin } from '@tabler/icons'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { userContext } from '../main'
 import { showNotification, NotificationsProvider } from '@mantine/notifications';
-import { firebaseApp, LoginUser, registerUser } from '../utils/firestoreSaver';
+import { firebaseApp, LoginUser, registerUser } from '../utils/firebaseUtils';
 
 function Login() {
   const firebaseAuth = getAuth(firebaseApp);

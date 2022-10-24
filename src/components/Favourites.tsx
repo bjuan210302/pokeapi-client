@@ -3,7 +3,7 @@ import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { userContext } from "../main";
-import { saveFavourite } from "../utils/firestoreSaver";
+import { saveFavourite } from "../utils/firebaseUtils";
 
 type Item = {
   name: string,
