@@ -6,7 +6,7 @@ import Login from './components/Login'
 import Favourites from './components/Favourites'
 import './index.css'
 import { initializeApp } from 'firebase/app'
-import ListPokemon from './views/listPokemon/ListPokemon'
+import ListPokemon from './components/listPokemon/ListPokemon'
 
 const firebaseConfig = {
   apiKey: "AIzaSyC_fWJFRzPOL6pr1UqqzXK7fZc95wycuNc",
