@@ -5,26 +5,20 @@ import App from './components/App'
 import Login from './components/Login'
 import Favourites from './components/Favourites'
 import './index.css'
-import { initializeApp } from 'firebase/app'
+import { DocumentData } from 'firebase/firestore'
+import { NotificationsProvider } from '@mantine/notifications'
 
-const firebaseConfig = {
-  apiKey: "AIzaSyC_fWJFRzPOL6pr1UqqzXK7fZc95wycuNc",
-  authDomain: "pokeapi-client-a17af.firebaseapp.com",
-  projectId: "pokeapi-client-a17af",
-  storageBucket: "pokeapi-client-a17af.appspot.com",
-  messagingSenderId: "663554752747",
-  appId: "1:663554752747:web:da3d608f29baf797b6beae"
-};
-
-export const firebaseApp = initializeApp(firebaseConfig)
 export const userContext = React.createContext({
   uid: '',
   setUid: (() => { }) as React.Dispatch<React.SetStateAction<string>>,
+  favourites: {} as DocumentData,
+  setFavourites: (() => { }) as React.Dispatch<React.SetStateAction<DocumentData>>,
 });
 
 const Index = () => {
   const [uid, setUid] = useState('');
-  const context = { uid, setUid };
+  const [favourites, setFavourites] = useState({});
+  const context = { uid, setUid, favourites, setFavourites };
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -34,15 +28,18 @@ const Index = () => {
       navigate('/')
     }
   }, [uid])
+
   return (
     <userContext.Provider value={context}>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/app" element={<App />} >
-          <Route path="list" element={<Favourites />} />
-          <Route path="favourites" element={<div>FAV</div>} />
-        </Route>
-      </Routes>
+      <NotificationsProvider position='top-center'>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/app" element={<App />} >
+            <Route path="list" element={<Favourites />} />
+            <Route path="favourites" element={<Favourites />} />
+          </Route>
+        </Routes>
+      </NotificationsProvider>
     </userContext.Provider>
   )
 }

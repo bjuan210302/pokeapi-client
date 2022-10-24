@@ -1,10 +1,11 @@
 import { AppShell, Group, Stack, ThemeIcon, UnstyledButton, Text } from '@mantine/core';
 import { IconPhoto, IconHeart, IconArrowBarLeft } from '@tabler/icons';
 import { Navbar } from '@mantine/core';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { getAuth, signOut } from 'firebase/auth';
-import { firebaseApp, userContext } from '../main';
+import { userContext } from '../main';
 import { useContext } from 'react';
+import { firebaseApp } from '../utils/firestoreSaver';
 
 interface MainLinkProps {
   icon: React.ReactNode;
