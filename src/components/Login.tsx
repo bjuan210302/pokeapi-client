@@ -2,36 +2,35 @@ import { useState, useContext } from 'react'
 import { Button, Card, Center, Checkbox, Group, TextInput, Transition } from '@mantine/core'
 import { IconEdit, IconLogin } from '@tabler/icons'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { firebaseApp, userContext } from '../main'
+import { userContext } from '../main'
 import { showNotification, NotificationsProvider } from '@mantine/notifications';
+import { firebaseApp, LoginUser, registerUser } from '../utils/firebaseUtils';
 
 function Login() {
   const firebaseAuth = getAuth(firebaseApp);
-  const { setUid } = useContext(userContext);
+  const { setUid, setFavourites } = useContext(userContext);
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('email@email.com');
   const [password, setPassword] = useState('asdasd');
   const [passwordConfirm, setPasswordConfirm] = useState('asdasd');
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const loginOrRegister = () => {
-    if (isLogin) {
-      signInWithEmailAndPassword(firebaseAuth, email, password)
-        .then((userCredential) => {
-          setUid(userCredential.user.uid);
-        })
-        .catch((error) => {
-          showErrorNotification(error.message);
-        });
-    } else {
-      createUserWithEmailAndPassword(firebaseAuth, email, password)
-        .then((userCredential) => {
-          setUid(userCredential.user.uid);
-        })
-        .catch((error) => {
-          showErrorNotification(error.message);
-        });
+  const loginOrRegister = async () => {
+    setIsLoading(true);
+    try {
+      if (isLogin) {
+        const { uid, favourites } = await LoginUser({ email, password });
+        favourites
+        setUid(uid);
+        setFavourites(favourites);
+      } else {
+        registerUser({ email, password }, setUid);
+      }
+    } catch (err: any) {
+      showErrorNotification(err.message);
     }
+    setIsLoading(false);
   }
 
   const showErrorNotification = (msg: string) => {
@@ -74,7 +73,7 @@ function Login() {
               onChange={() => setIsCheckboxChecked((isCheckboxChecked) => !isCheckboxChecked)} />}
           </Transition>
           <Group position="right" mt="md">
-            <Button onClick={loginOrRegister} disabled={checkButtonDisabled()}>
+            <Button onClick={loginOrRegister} disabled={checkButtonDisabled()} loading={isLoading}>
               {isLogin ? 'Entrar' : 'Registrarse'}
             </Button>
           </Group>
