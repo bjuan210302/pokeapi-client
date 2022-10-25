@@ -28,10 +28,6 @@ function PokemonCard(props: PokemonCardProps) {
 
   const { uid, favourites, setFavourites } = useContext(userContext);
 
-  const [currentPage, setCurrentPage] = useState(0);
-
-  const [itemsCurrentPage, setItemsCurrentPage] = useState<Array<Item>>([])
-
 
   const capitalize  = (word:string) => {
     const result1 = word.charAt(0).toUpperCase() + word.slice(1);
@@ -71,7 +67,7 @@ function PokemonCard(props: PokemonCardProps) {
   const savePokemon = async () => {
     try {
       const newFavs = await saveFavourite(uid, props)
-      console.log(newFavs)
+      
       showNotification({
         message: 'Pokemon saved',
         color: 'green',

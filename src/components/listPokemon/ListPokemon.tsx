@@ -30,6 +30,7 @@ function ListPokemon() {
       let response = await axiosPokemon.get(`pokemon?limit=20&offset=${offsetValue}`);
       
       setRenderedPokemon(response.data.results);
+      
 
     }
 
@@ -41,7 +42,8 @@ function ListPokemon() {
   const renderPokemon = () => {
     return renderedPokemon.map((pokemon) => (
       <Grid.Col span={3}>
-        <PokemonCard name={pokemon.name} url={pokemon.url}></PokemonCard>
+        
+        <PokemonCard name={pokemon.name} url={pokemon.url} key={pokemon.name}></PokemonCard>
       </Grid.Col>
     ));
   };

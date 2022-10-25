@@ -11,11 +11,12 @@ interface MainLinkProps {
   icon: React.ReactNode;
   color: string;
   label: string;
+  link: string;
   onClickProp?: () => void;
 }
 
 function MainLink(props: MainLinkProps) {
-  const { icon, color, label, onClickProp } = props;
+  const { icon, color, label, link, onClickProp } = props;
   const navigate = useNavigate();
   return (
     <UnstyledButton px='xl' py='sm'
@@ -29,7 +30,7 @@ function MainLink(props: MainLinkProps) {
       })}
       onClick={() => {
         if (onClickProp) onClickProp()
-        else navigate(label)
+        else navigate(link)
       }}
     >
       <Group>
@@ -46,8 +47,8 @@ function CNavbar() {
   const firebaseAuth = getAuth(firebaseApp);
   const { setUid } = useContext(userContext);
   const navLinks = [
-    { icon: <IconPhoto size={22} />, color: 'teal', label: 'All Pokémon' },
-    { icon: <IconHeart size={22} />, color: 'red', label: 'My Favorites' },
+    { icon: <IconPhoto size={22} />, color: 'teal', label: 'All Pokémon', link: 'list' },
+    { icon: <IconHeart size={22} />, color: 'red', label: 'My Favourites', link: 'favourites'},
   ];
   const logout = () => {
     signOut(firebaseAuth).then(() => setUid('')).catch();
@@ -58,7 +59,7 @@ function CNavbar() {
       <Navbar.Section grow mt="md">
         <Stack>
           {navLinks.map((link) => <MainLink {...link} key={link.label} />)}
-          <MainLink icon={<IconArrowBarLeft size={22} />} color='indigo' label='Logout'
+          <MainLink icon={<IconArrowBarLeft size={22} />} color='indigo' label='Logout' link=''
             onClickProp={logout} />
         </Stack>
       </Navbar.Section>
