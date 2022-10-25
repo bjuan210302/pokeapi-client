@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Card, Image, Text, Badge, Button, Group, Stack } from '@mantine/core';
+import { showNotification } from "@mantine/notifications";
 import axios from 'axios';
+
+import { userContext } from "../../../main";
+import { saveFavourite } from "../../../utils/firebaseUtils";
 
 interface PokemonCardProps {
   name: string;
@@ -22,10 +26,15 @@ function PokemonCard(props: PokemonCardProps) {
     picture: ''
   });
 
+  const { uid, favourites, setFavourites } = useContext(userContext);
+
+  const [currentPage, setCurrentPage] = useState(0);
+
+  const [itemsCurrentPage, setItemsCurrentPage] = useState<Array<Item>>([])
+
 
   const capitalize  = (word:string) => {
     const result1 = word.charAt(0).toUpperCase() + word.slice(1);
-    console.log(result1)
     return result1;
   }
 
@@ -59,6 +68,23 @@ function PokemonCard(props: PokemonCardProps) {
     
   }
 
+  const savePokemon = async () => {
+    try {
+      const newFavs = await saveFavourite(uid, props)
+      console.log(newFavs)
+      showNotification({
+        message: 'Pokemon saved',
+        color: 'green',
+      })
+
+    } catch (e: any) {
+      showNotification({
+        message: e.message,
+        color: 'red',
+      })
+    }
+  }
+
   const renderTypes = () => {
 
     return pokemonRendered.type.map((type : string) => ( 
@@ -69,9 +95,12 @@ function PokemonCard(props: PokemonCardProps) {
             
       
   }
+
+  useEffect(() => {
+    organizePokemonInfo();
+  }, [])
   
 
-  organizePokemonInfo();
 
   return (
     <Card shadow="sm" p="lg" radius="md" withBorder>
@@ -93,7 +122,7 @@ function PokemonCard(props: PokemonCardProps) {
 
       
 
-      <Button variant="light" color="blue" fullWidth mt="md" radius="md">
+      <Button onClick={savePokemon} variant="light" color="blue" fullWidth mt="md" radius="md">
         Add to Favorites
       </Button>
     </Card>
