@@ -41,6 +41,7 @@ function Favourites() {
       })
     }
   }
+  
   return (
     <>
       <div>Current user ID: {uid}</div>
