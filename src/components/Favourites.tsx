@@ -1,9 +1,10 @@
-import { Button } from "@mantine/core";
+import { Grid, Stack, Center, Button, Text } from '@mantine/core';
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { userContext } from "../main";
 import { saveFavourite } from "../utils/firebaseUtils";
+import PokemonCard from '../components/listPokemon/components/PokemonCard';
 
 type Item = {
   name: string,
@@ -20,7 +21,7 @@ function Favourites() {
   useEffect(() => {
     axios.get(API).then((res) => {
       setItemsCurrentPage(res.data.results)
-      console.log(res.data)
+      console.log('melo'+res.data.results)
     });
     console.log(favourites);
   }, [])
@@ -41,16 +42,21 @@ function Favourites() {
       })
     }
   }
-  
+
+  const renderPokemon = () => {
+      return Object.keys(favourites).map((favKey => {
+        return( <Grid.Col span={3}>
+          <PokemonCard name={favourites[favKey].name} url={favourites[favKey].url} key={favourites[favKey].name}></PokemonCard>
+        </Grid.Col>)
+      }))
+  } 
+
   return (
     <>
-      <div>Current user ID: {uid}</div>
-      {itemsCurrentPage.map((meme, i) => {
-        return <div style={{ border: '1px solid red' }} key={`poke${i}`}>{JSON.stringify(meme)}</div>
-      })}
-      {Object.keys(favourites).map((favKey => {
-        return <div style={{ border: '1px solid blue' }} key={favKey}>{JSON.stringify(favourites[favKey])}</div>
-      }))}
+      <Grid>
+        {renderPokemon()}
+      </Grid>
+
       <Button onClick={savePokemon}>Save</Button>
     </>
   );
