@@ -67,7 +67,7 @@ function PokemonCard(props: PokemonCardProps) {
   const savePokemon = async () => {
     try {
       const newFavs = await saveFavourite(uid, props)
-      
+      setFavourites(newFavs);
       showNotification({
         message: 'Pokemon saved',
         color: 'green',
