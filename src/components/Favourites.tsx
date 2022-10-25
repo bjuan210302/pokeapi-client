@@ -46,7 +46,8 @@ function Favourites() {
   const renderPokemon = () => {
       return Object.keys(favourites).map((favKey => {
         return( <Grid.Col span={3}>
-          <PokemonCard name={favourites[favKey].name} url={favourites[favKey].url} key={favourites[favKey].name}></PokemonCard>
+          <PokemonCard name={favourites[favKey].name} url={favourites[favKey].url} key={favourites[favKey].name}
+            isFavCard></PokemonCard>
         </Grid.Col>)
       }))
   } 
