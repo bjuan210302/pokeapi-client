@@ -1,4 +1,4 @@
-import { Grid, Stack, Center, Button, Text } from '@mantine/core';
+import { Grid, Button } from '@mantine/core';
 import { showNotification } from "@mantine/notifications";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";

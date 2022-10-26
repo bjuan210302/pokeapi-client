@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axiosPokemon from '../../config/axiosPokemon';
-import axios from 'axios';
 
 import { Grid, Stack, Center, Button, Text } from '@mantine/core';
 

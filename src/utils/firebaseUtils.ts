@@ -1,4 +1,4 @@
-import { getFirestore, addDoc, collection, setDoc, doc, updateDoc, getDoc, deleteField } from "firebase/firestore";
+import { getFirestore, setDoc, doc, updateDoc, getDoc, deleteField } from "firebase/firestore";
 import { initializeApp } from 'firebase/app'
 import { createUserWithEmailAndPassword, getAuth, signInWithEmailAndPassword, UserCredential } from "firebase/auth";
 

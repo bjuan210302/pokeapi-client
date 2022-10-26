@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react'
 import { Button, Card, Center, Checkbox, Group, TextInput, Transition } from '@mantine/core'
 import { IconEdit, IconLogin } from '@tabler/icons'
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { userContext } from '../main'
 import { showNotification, NotificationsProvider } from '@mantine/notifications';
 import { firebaseApp, LoginUser, registerUser } from '../utils/firebaseUtils';
@@ -10,9 +10,9 @@ function Login() {
   const firebaseAuth = getAuth(firebaseApp);
   const { setUid, setFavourites } = useContext(userContext);
   const [isLogin, setIsLogin] = useState(true);
-  const [email, setEmail] = useState('email@email.com');
-  const [password, setPassword] = useState('asdasd');
-  const [passwordConfirm, setPasswordConfirm] = useState('asdasd');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
   const [isCheckboxChecked, setIsCheckboxChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

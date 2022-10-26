@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Card, Image, Text, Badge, Button, Group, Stack } from '@mantine/core';
 import { showNotification } from "@mantine/notifications";
 import axios from 'axios';
